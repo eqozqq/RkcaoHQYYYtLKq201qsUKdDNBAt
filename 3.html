@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        #canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        function generateRandomObjects() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const shapes = ['square', 'circle', 'oval', 'triangle', 'hexagon', 'pentagon'];
+
+            shapes.forEach(shape => {
+                ctx.fillStyle = getRandomColor();
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 100 + 20; // Размер объекта
+
+                if (shape === 'square') {
+                    ctx.fillRect(x, y, size, size);
+                } else if (shape === 'circle') {
+                    ctx.beginPath();
+                    ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (shape === 'oval') {
+                    ctx.beginPath();
+                    ctx.ellipse(x, y, size / 2, size / 3, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (shape === 'triangle') {
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(x + size, y);
+                    ctx.lineTo(x + size / 2, y + size);
+                    ctx.closePath();
+                    ctx.fill();
+                } else if (shape === 'hexagon') {
+                    ctx.beginPath();
+                    ctx.moveTo(x + size, y);
+                    for (let i = 1; i <= 6; i++) {
+                        const angle = i * (Math.PI / 3);
+                        const nextX = x + Math.cos(angle) * size;
+                        const nextY = y + Math.sin(angle) * size;
+                        ctx.lineTo(nextX, nextY);
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+                } else if (shape === 'pentagon') {
+                    ctx.beginPath();
+                    ctx.moveTo(x + size, y);
+                    for (let i = 1; i <= 5; i++) {
+                        const angle = i * (2 * Math.PI / 5);
+                        const radius = i % 2 === 0 ? size : size / 2;
+                        const nextX = x + Math.cos(angle) * radius;
+                        const nextY = y + Math.sin(angle) * radius;
+                        ctx.lineTo(nextX, nextY);
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            });
+        }
+
+        function getRandomColor() {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            return `rgb(${r},${g},${b})`;
+        }
+
+        function updateObjects() {
+            generateRandomObjects();
+            setTimeout(updateObjects, 1000);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            generateRandomObjects();
+        });
+
+        updateObjects();
+    </script>
+</body>
+</html>
