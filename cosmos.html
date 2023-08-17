@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            overflow: hidden;
+        }
+
+        .cosmos {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .comet {
+            position: absolute;
+            width: 2px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmos" id="cosmos"></div>
+
+    <script>
+        const cosmos = document.getElementById('cosmos');
+        const numStars = 1000;
+        const numComets = 10;
+
+        for (let i = 0; i < numStars; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 2 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.animation = `twinkle ${Math.random() * 5 + 3}s linear infinite`;
+
+            cosmos.appendChild(star);
+        }
+
+        for (let i = 0; i < numComets; i++) {
+            const comet = document.createElement('div');
+            comet.className = 'comet';
+            comet.style.left = Math.random() * 100 + 'vw';
+            comet.style.top = Math.random() * 100 + 'vh';
+            comet.style.animation = `comet-fall ${Math.random() * 10 + 5}s linear infinite`;
+
+            cosmos.appendChild(comet);
+        }
+    </script>
+
+    <style>
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes comet-fall {
+            0% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
+            10%, 90% { transform: translateY(110vh) scale(1); opacity: 1; }
+            100% { transform: translateY(120vh) scale(0.2); opacity: 0; }
+        }
+    </style>
+</body>
+</html>
