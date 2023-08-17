@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RkcaoHQ Y YY tLKq 2 01qs U!KdD&NBAt</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay"></div>
+    <script>
+        const overlay = document.getElementById("overlay");
+
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*() ";
+
+        function getRandomCharacter() {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            return characters[randomIndex];
+        }
+
+        function getRandomWord(length) {
+            let word = "";
+            for (let i = 0; i < length; i++) {
+                word += getRandomCharacter();
+            }
+            return word;
+        }
+
+        function getRandomSentence() {
+            const sentenceLength = Math.floor(Math.random() * 20) + 5;
+            const words = [];
+            for (let i = 0; i < sentenceLength; i++) {
+                const wordLength = Math.floor(Math.random() * 10) + 1;
+                const word = getRandomWord(wordLength);
+                words.push(word);
+            }
+            return words.join(" ");
+        }
+
+        function createRandomContent() {
+            const content = document.createElement("div");
+            const type = Math.random();
+            if (type < 0.7) {
+                content.textContent = getRandomSentence();
+            } else {
+                content.textContent = getRandomCharacter();
+            }
+            content.style.color = getRandomColor();
+            content.style.left = Math.random() * window.innerWidth + "px";
+            content.style.top = Math.random() * window.innerHeight + "px";
+            return content;
+        }
+
+        function getRandomColor() {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            return `rgb(${r},${g},${b})`;
+        }
+
+        setInterval(() => {
+            const randomContent = createRandomContent();
+            overlay.appendChild(randomContent);
+            setTimeout(() => {
+                overlay.removeChild(randomContent);
+            }, 10000);
+        }, 100);
+    </script>
+</body>
+</html>
