@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', monospace;
+            background-color: black;
+            color: white;
+            overflow: hidden;
+        }
+
+        .console {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 10px;
+            box-sizing: border-box;
+            line-height: 1.5;
+        }
+
+        .link {
+            color: cyan;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="console">
+        <div>RkcaoHQ Y YY tLKq 2 01qs U!KdD&NBAt</div>
+        <div id="randomText"><span id="randomChars"></span><span id="randomText"></span></div>
+        <div class="link" id="link1">> Page 1</div>
+        <div class="link" id="link2">> Page 2</div>
+        <div class="link" id="link3">> Page 3</div>
+    </div>
+
+    <script>
+        const link1 = document.getElementById('link1');
+        const link2 = document.getElementById('link2');
+        const link3 = document.getElementById('link3');
+        const randomCharsElement = document.getElementById('randomChars');
+        const randomTextElement = document.getElementById('randomText');
+        
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*() ";
+        
+        function getRandomCharacter() {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            return characters[randomIndex];
+        }
+        
+        function generateRandomText(length) {
+            let text = '';
+            for (let i = 0; i < length; i++) {
+                text += getRandomCharacter();
+            }
+            return text;
+        }
+        
+        function updateRandomText() {
+            randomCharsElement.textContent = generateRandomText(15);
+            randomTextElement.textContent = generateRandomText(20);
+        }
+        
+        setInterval(updateRandomText, 1);
+
+        link1.addEventListener('click', () => {
+            window.location.href = 'https://eqozqq.github.io/RkcaoHQYYYtLKq201qsUKdDNBAt/1.html';
+        });
+
+        link2.addEventListener('click', () => {
+            window.location.href = 'https://eqozqq.github.io/RkcaoHQYYYtLKq201qsUKdDNBAt/2.html';
+        });
+
+        link3.addEventListener('click', () => {
+            window.location.href = 'https://eqozqq.github.io/RkcaoHQYYYtLKq201qsUKdDNBAt/3.html';
+        });
+    </script>
+</body>
+</html>
