@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        #canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*() ';
+
+        function getRandomCharacter() {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            return characters[randomIndex];
+        }
+
+        function generateRandomDrawing() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const rows = Math.floor(canvas.height / 10);
+            const cols = Math.floor(canvas.width / 10);
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    ctx.fillStyle = getRandomColor();
+                    ctx.font = '10px monospace';
+                    const character = getRandomCharacter();
+                    ctx.fillText(character, col * 10, row * 10);
+                }
+            }
+        }
+
+        function getRandomColor() {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            return `rgb(${r},${g},${b})`;
+        }
+
+        function updateDrawing() {
+            generateRandomDrawing();
+            setTimeout(updateDrawing, 5);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            generateRandomDrawing();
+        });
+
+        updateDrawing();
+    </script>
+</body>
+</html>
