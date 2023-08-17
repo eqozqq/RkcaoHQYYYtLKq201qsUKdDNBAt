@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', monospace;
+            background-color: black;
+            color: green;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .number {
+            font-size: 5rem;
+            margin: 10px;
+            animation: fade-in 1s linear forwards, move-up 1s linear forwards;
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes move-up {
+            0% {
+                transform: translateY(100px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="number">0</div>
+    <script>
+        const numberElement = document.querySelector('.number');
+
+        let currentNumber = 0;
+
+        function generateNextNumber() {
+            numberElement.textContent = currentNumber.toLocaleString();
+            currentNumber++;
+            if (currentNumber <= 10000000000000000000000000000000000000000000000000000000000000000) {
+                requestAnimationFrame(generateNextNumber);
+            }
+        }
+
+        generateNextNumber();
+    </script>
+</body>
+</html>
