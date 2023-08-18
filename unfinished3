@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #000;
+      cursor: none;
+      color: #FFF;
+      font-family: Arial, sans-serif;
+      position: relative;
+    }
+    
+    .smiley {
+      font-size: 36px;
+      color: #FFF;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    let score = 0;
+
+    document.addEventListener("mousemove", (event) => {
+      const smiley = document.createElement("div");
+      smiley.className = "smiley";
+      smiley.textContent = "=)";
+      const mouseX = event.clientX;
+      const mouseY = event.clientY;
+      smiley.style.left = `${mouseX - 18}px`;
+      smiley.style.top = `${mouseY - 18}px`;
+      
+      smiley.addEventListener("mouseenter", () => {
+        score++;
+        updateScore();
+        moveSmiley(smiley);
+      });
+
+      document.body.appendChild(smiley);
+    });
+
+    function moveSmiley(smiley) {
+      const newX = Math.random() * (window.innerWidth - 36);
+      const newY = Math.random() * (window.innerHeight - 36);
+      smiley.style.left = `${newX}px`;
+      smiley.style.top = `${newY}px`;
+    }
+
+    function updateScore() {
+      const scoreElement = document.getElementById("score");
+      scoreElement.textContent = `Smiles: ${score}`;
+    }
+  </script>
+  <div id="score" style="position: absolute; top: 10px; left: 10px;">Score: 0</div>
+</body>
+</html>
