@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #000;
+      cursor: none;
+    }
+    
+    #cube {
+      width: 50px;
+      height: 50px;
+      background-color: #FFF;
+      position: absolute;
+      transform-origin: center;
+    }
+    
+    #smileys {
+      position: absolute;
+      pointer-events: none;
+    }
+    
+    .smiley {
+      font-size: 36px;
+      color: #FFF;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <div id="cube"></div>
+  <div id="smileys"></div>
+  <script>
+    const cube = document.getElementById("cube");
+    const smileysContainer = document.getElementById("smileys");
+    
+    document.addEventListener("mousemove", (event) => {
+      const mouseX = event.clientX;
+      const mouseY = event.clientY;
+      
+      const cubeX = mouseX - cube.clientWidth / 2;
+      const cubeY = mouseY - cube.clientHeight / 2;
+      
+      cube.style.transform = `translate(${cubeX}px, ${cubeY}px)`;
+      
+      const randomColor = getRandomColor();
+      cube.style.backgroundColor = randomColor;
+    });
+    
+    function getRandomColor() {
+      const letters = "0123456789ABCDEF";
+      let color = "#";
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+    
+    function createSmiley(x, y) {
+      const smiley = document.createElement("div");
+      smiley.className = "smiley";
+      smiley.textContent = "=)";
+      smiley.style.left = `${x}px`;
+      smiley.style.top = `${y}px`;
+      smileysContainer.appendChild(smiley);
+      
+      setTimeout(() => {
+        smileysContainer.removeChild(smiley);
+      }, 3000);
+    }
+    
+    setInterval(() => {
+      const x = Math.random() * window.innerWidth;
+      const y = Math.random() * window.innerHeight;
+      createSmiley(x, y);
+    }, 1000);
+  </script>
+</body>
+</html>
