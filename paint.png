@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        #canvas {
+            border: 1px solid #000;
+        }
+
+        #controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        #buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 5px 10px;
+            font-size: 14px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+
+    <div id="controls">
+        <input type="color" id="colorPicker" value="#000000">
+        <input type="range" id="brushSize" min="1" max="20" value="5">
+        <div id="buttons">
+            <button id="clearButton">Clear</button>
+            <button id="saveButton">Save</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const colorPicker = document.getElementById('colorPicker');
+        const brushSizeInput = document.getElementById('brushSize');
+        const clearButton = document.getElementById('clearButton');
+        const saveButton = document.getElementById('saveButton');
+
+        let isDrawing = false;
+        let color = colorPicker.value;
+        let brushSize = brushSizeInput.value;
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+        canvas.addEventListener('mousemove', draw);
+
+        canvas.addEventListener('touchstart', startDrawing);
+        canvas.addEventListener('touchend', stopDrawing);
+        canvas.addEventListener('touchcancel', stopDrawing);
+        canvas.addEventListener('touchmove', draw);
+
+        colorPicker.addEventListener('change', (event) => {
+            color = event.target.value;
+        });
+
+        brushSizeInput.addEventListener('input', (event) => {
+            brushSize = event.target.value;
+        });
+
+        clearButton.addEventListener('click', clearCanvas);
+        saveButton.addEventListener('click', saveImage);
+
+        function startDrawing(event) {
+            isDrawing = true;
+            context.beginPath();
+            context.moveTo(getX(event), getY(event));
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+            context.closePath();
+        }
+
+        function draw(event) {
+            if (!isDrawing) return;
+            context.lineTo(getX(event), getY(event));
+            context.strokeStyle = color;
+            context.lineWidth = brushSize;
+            context.lineCap = 'round';
+            context.lineJoin = 'round';
+            context.stroke();
+        }
+
+        function getX(event) {
+            return event.clientX ? event.clientX - canvas.offsetLeft : event.touches[0].clientX - canvas.offsetLeft;
+        }
+
+        function getY(event) {
+            return event.clientY ? event.clientY - canvas.offsetTop : event.touches[0].clientY - canvas.offsetTop;
+        }
+
+        function clearCanvas() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function saveImage() {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'drawing.png';
+            link.click();
+        }
+    </script>
+</body>
+</html>
