@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: #000;
+            color: #00ff00;
+            font-family: "Courier New", monospace;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #console {
+            background-color: #000;
+            padding: 20px;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            width: 400px;
+            margin: 0 auto;
+        }
+        input[type="number"] {
+            background-color: #000;
+            color: #00ff00;
+            border: none;
+            border-bottom: 2px solid #00ff00;
+            padding: 5px;
+            margin-top: 10px;
+            width: 100px;
+        }
+        button {
+            background-color: #00ff00;
+            color: #000;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="console">
+        <h1>Math Quiz</h1>
+        <label for="difficulty">Select Difficulty Level:</label>
+        <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+        <p>Solve the following problem:</p>
+        <div id="problem"></div>
+        <input type="number" id="userAnswer" placeholder="Enter answer">
+        <button id="checkAnswer">Check</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function getRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateProblem(difficulty) {
+            var operand1, operand2, operator;
+
+            switch (difficulty) {
+                case "easy":
+                    operand1 = getRandomNumber(1, 10);
+                    operand2 = getRandomNumber(1, 10);
+                    operator = ['+', '-'][getRandomNumber(0, 1)];
+                    break;
+                case "medium":
+                    operand1 = getRandomNumber(10, 50);
+                    operand2 = getRandomNumber(10, 50);
+                    operator = ['+', '-', '*'][getRandomNumber(0, 2)];
+                    break;
+                case "hard":
+                    operand1 = getRandomNumber(50, 100);
+                    operand2 = getRandomNumber(50, 100);
+                    operator = ['+', '-', '*', '/'][getRandomNumber(0, 3)];
+                    break;
+            }
+
+            var problemElement = document.getElementById('problem');
+            problemElement.innerHTML = operand1 + ' ' + operator + ' ' + operand2;
+        }
+
+        generateProblem("easy");
+
+        document.getElementById('difficulty').addEventListener('change', function () {
+            generateProblem(document.getElementById('difficulty').value);
+        });
+
+        document.getElementById('checkAnswer').addEventListener('click', function () {
+            checkAnswer();
+        });
+
+        document.getElementById('userAnswer').addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+
+        function checkAnswer() {
+            var userAnswer = parseFloat(document.getElementById('userAnswer').value);
+            var problem = document.getElementById('problem').innerHTML;
+            var operands = problem.split(' ');
+            var operand1 = parseFloat(operands[0]);
+            var operand2 = parseFloat(operands[2]);
+            var operator = operands[1];
+
+            var correctAnswer;
+            switch (operator) {
+                case '+':
+                    correctAnswer = operand1 + operand2;
+                    break;
+                case '-':
+                    correctAnswer = operand1 - operand2;
+                    break;
+                case '*':
+                    correctAnswer = operand1 * operand2;
+                    break;
+                case '/':
+                    correctAnswer = operand1 / operand2;
+                    break;
+            }
+
+            var resultElement = document.getElementById('result');
+            if (userAnswer === correctAnswer) {
+                resultElement.innerHTML = '<p>Correct!</p>';
+                generateProblem(document.getElementById('difficulty').value);
+                document.getElementById('userAnswer').value = '';
+            } else {
+                resultElement.innerHTML = '<p>Incorrect. Try again.</p>';
+            }
+        }
+    </script>
+</body>
+</html>
