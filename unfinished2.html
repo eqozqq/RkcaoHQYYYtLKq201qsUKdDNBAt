@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #222;
+    }
+    
+    .game-container {
+      width: 300px;
+      height: 300px;
+      border: 1px solid #ccc;
+      position: relative;
+    }
+    
+    .snake, .apple {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+    }
+    
+    .snake {
+      background-color: #00cc00;
+    }
+    
+    .apple {
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <div class="snake"></div>
+    <div class="apple"></div>
+  </div>
+  <script>
+    const snakeElement = document.querySelector('.snake');
+    const appleElement = document.querySelector('.apple');
+    
+    let x = 0;
+    let y = 0;
+    let snakeX = 0;
+    let snakeY = 0;
+    let appleX = 0;
+    let appleY = 0;
+    
+    function updateSnakePosition() {
+      snakeX += x;
+      snakeY += y;
+      snakeElement.style.left = snakeX + 'px';
+      snakeElement.style.top = snakeY + 'px';
+      
+      if (snakeX === appleX && snakeY === appleY) {
+        generateRandomApplePosition();
+      }
+    }
+    
+    function generateRandomApplePosition() {
+      const maxX = 280;
+      const maxY = 280;
+      appleX = Math.floor(Math.random() * maxX);
+      appleY = Math.floor(Math.random() * maxY);
+      appleElement.style.left = appleX + 'px';
+      appleElement.style.top = appleY + 'px';
+    }
+    
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowUp') {
+        x = 0;
+        y = -20;
+      } else if (event.key === 'ArrowDown') {
+        x = 0;
+        y = 20;
+      } else if (event.key === 'ArrowLeft') {
+        x = -20;
+        y = 0;
+      } else if (event.key === 'ArrowRight') {
+        x = 20;
+        y = 0;
+      }
+    });
+    
+    function gameLoop() {
+      updateSnakePosition();
+      requestAnimationFrame(gameLoop);
+    }
+    
+    generateRandomApplePosition();
+    gameLoop();
+  </script>
+</body>
+</html>
